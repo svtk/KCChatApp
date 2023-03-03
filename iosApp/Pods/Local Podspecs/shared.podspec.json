@@ -1,13 +1,13 @@
 {
   "name": "shared",
   "version": "1.0-SNAPSHOT",
-  "homepage": "Link to the Shared Module homepage",
+  "homepage": "https://github.com/svtk/KCChatApp",
   "source": {
     "http": ""
   },
   "authors": "",
   "license": "",
-  "summary": "Some description for the Shared Module",
+  "summary": "Shared code for the KCChatApp sample",
   "vendored_frameworks": "build/cocoapods/framework/shared.framework",
   "libraries": "c++",
   "platforms": {
