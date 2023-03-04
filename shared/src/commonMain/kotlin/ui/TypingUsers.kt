@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -21,18 +22,16 @@ internal fun TypingUsers(typingUsers: Set<String>) {
         "$first and $second are typing"
     } else {
         val list = typingUsers.toList()
-        val first = list.take(list.size - 1).joinToString()
-        "$first, and ${list.last()} are typing"
+        "${list.take(list.size - 1).joinToString()}, and ${list.last()} are typing"
     }
     Box(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            modifier = Modifier.padding(4.dp),
             text = text,
             color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f),
-            style = MaterialTheme.typography.overline
+            style = MaterialTheme.typography.overline.copy(fontWeight = FontWeight.Bold)
         )
     }
 }

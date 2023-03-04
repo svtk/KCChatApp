@@ -35,7 +35,7 @@ class ChatViewModel: CommonViewModel() {
                 .onEach { event ->
                     when (event) {
                         is MessageEvent -> {
-                            _messagesFlow.update { plist -> persistentListOf(event.message) + plist }
+                            _messagesFlow.update { plist -> plist + event.message }
                             _typingEvents.update { events ->
                                 // cancelling typing events from a user if this user has written a message
                                 events.filter { it.username != event.username }

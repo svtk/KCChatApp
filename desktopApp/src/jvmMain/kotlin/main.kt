@@ -7,7 +7,7 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = "Chat",
-        state = rememberWindowState(width = 320.dp, height = 600.dp),
+        state = rememberWindowState(width = 400.dp, height = 800.dp),
     ) {
         MainView()
     }
