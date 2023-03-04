@@ -1,28 +1,41 @@
 package ui.model
 
 import androidx.compose.runtime.Immutable
-import model.MessageEvent
 import kotlinx.datetime.*
 import kotlinx.serialization.Serializable
+import model.MessageEvent
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
 
 @Immutable
 @Serializable
 data class Message(
     val username: String,
     val text: String,
-    val localDateTime: LocalDateTime
+    val timeText: String
 )
 
-val MessageEvent.message
-    get() = Message(
-        username = username,
-        text = messageText,
-        localDateTime = timestamp.toLocalDateTime(TimeZone.currentSystemDefault())
-    )
+fun MessageEvent.toMessage() = Message(
+    username = username,
+    text = messageText,
+    timeText = timeText(timestamp)
+)
 
-fun Message.timeText(): String {
+private fun timeText(instant: Instant): String {
+    val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
     val time = localDateTime.run { LocalTime(hour, minute) }
-    val date = localDateTime.date
-    val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
-    return if (date == today) "$time" else "$date $time"
+
+    val elapsed = Clock.System.now() - instant
+    return elapsed.toComponents { _, hours, minutes, _, _ ->
+        when {
+            elapsed < 1.hours -> "${minutes}m ago"
+            elapsed < 1.days -> "${hours}h ago"
+            else -> {
+                val month = localDateTime.month.name.lowercase()
+                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+                    .substring(0..2)
+                "$month ${localDateTime.dayOfMonth}, $time"
+            }
+        }
+    }
 }

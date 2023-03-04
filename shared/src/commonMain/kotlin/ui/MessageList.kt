@@ -18,7 +18,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import ui.model.Message
-import ui.model.timeText
 
 @Composable
 internal fun MessageList(
@@ -89,7 +88,7 @@ private fun MessageCard(
                     modifier = Modifier.padding(top = 3.dp, start = 5.dp, end = 15.dp)
                 )
                 Text(
-                    text = message.timeText(),
+                    text = message.timeText,
                     modifier = Modifier
                         .align(Alignment.End)
                         .padding(start = 20.dp, end = 6.dp),

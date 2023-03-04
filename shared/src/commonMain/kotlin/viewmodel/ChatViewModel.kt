@@ -12,20 +12,27 @@ import model.TypingEvent
 import remote.ChatService
 import remote.ChatServiceImpl
 import ui.model.Message
-import ui.model.message
+import ui.model.toMessage
+import util.Ticker
+import util.tickFlow
+import kotlin.time.Duration.Companion.seconds
 
 class ChatViewModel: CommonViewModel() {
     private val chatService: ChatService = ChatServiceImpl()
     private var _username = mutableStateOf<String?>(null)
     val username: State<String?> = _username
 
-    private val _messagesFlow: MutableStateFlow<PersistentList<Message>> = MutableStateFlow(persistentListOf())
-    val messagesFlow: StateFlow<ImmutableList<Message>> get() = _messagesFlow
+    private val _messageEvents: MutableStateFlow<List<MessageEvent>> = MutableStateFlow(listOf())
+    private val _messagesFlow: MutableStateFlow<List<Message>> = MutableStateFlow(listOf())
+    val messagesFlow: Flow<ImmutableList<Message>>
+        get() = _messagesFlow.map { it.toImmutableList() }
 
     private val _typingEvents: MutableStateFlow<List<TypingEvent>> = MutableStateFlow(listOf())
     val typingUsers: Flow<ImmutableSet<String>>
         get() = _typingEvents
             .map { it.map(TypingEvent::username).toImmutableSet() }
+
+    private val ticker = Ticker(viewModelScope, 1.seconds)
 
     fun connectToChat(username: String) {
         _username.value = username
@@ -35,7 +42,10 @@ class ChatViewModel: CommonViewModel() {
                 .onEach { event ->
                     when (event) {
                         is MessageEvent -> {
-                            _messagesFlow.update { plist -> plist + event.message }
+                            _messageEvents.update { list -> list + event }
+                            _messagesFlow.update {
+                                _messageEvents.value.map { it.toMessage() }
+                            }
                             _typingEvents.update { events ->
                                 // cancelling typing events from a user if this user has written a message
                                 events.filter { it.username != event.username }
@@ -54,6 +64,11 @@ class ChatViewModel: CommonViewModel() {
                     }
                 }
                 .launchIn(viewModelScope)
+            tickFlow(1.seconds).collect {
+                _messagesFlow.update {
+                    _messageEvents.value.map { it.toMessage() }
+                }
+            }
         }
     }
 
