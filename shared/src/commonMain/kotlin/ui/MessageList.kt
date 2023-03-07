@@ -34,7 +34,7 @@ internal fun MessageList(
         }
     }
     LazyColumn(
-        modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp),
+        modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp).padding(top = 6.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         state = listState
     ) {
