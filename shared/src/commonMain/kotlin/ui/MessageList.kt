@@ -26,7 +26,7 @@ internal fun MessageList(
     messages: ImmutableList<Message>,
     username: String?,
 ) {
-    println("Rendering message list for $username, last message: ${messages.firstOrNull()?.text}")
+//    println("Rendering message list for $username, last message: ${messages.firstOrNull()?.text}")
 
     val listState = rememberLazyListState()
     if (messages.isNotEmpty()) {

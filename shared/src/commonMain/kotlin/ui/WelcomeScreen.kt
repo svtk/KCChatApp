@@ -49,14 +49,13 @@ internal fun ChatSurface(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
-    val gradientColors = listOf(Color.Gray, Color.LightGray)
+//    val gradientColors = listOf(Color.Gray, Color.LightGray)
     Surface(modifier) {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.horizontalGradient(gradientColors)
-                )
+            modifier = Modifier.fillMaxSize()
+//                .background(
+//                    brush = Brush.horizontalGradient(gradientColors)
+//                )
         ) {
             content()
         }
