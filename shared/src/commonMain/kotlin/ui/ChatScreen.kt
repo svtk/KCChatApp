@@ -42,12 +42,7 @@ internal fun ChatScreen(
     ) {
         Box(Modifier.weight(1f)) {
             ChatSurface {
-                Image(
-                    painter = painterResource("bg.png"),
-                    contentDescription = "",
-                    contentScale = ContentScale.FillWidth,
-                    modifier = Modifier.fillMaxWidth(),
-                )
+                ChatBackground()
                 MessageList(
                     messages = messages,
                     username = username,
@@ -65,4 +60,9 @@ internal fun ChatScreen(
         }
     }
 }
+
+
+@Composable
+internal expect fun ChatBackground()
+
 
