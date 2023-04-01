@@ -42,7 +42,6 @@ internal fun ChatScreen(
     ) {
         Box(Modifier.weight(1f)) {
             ChatSurface {
-                ChatBackground()
                 MessageList(
                     messages = messages,
                     username = username,
@@ -60,9 +59,3 @@ internal fun ChatScreen(
         }
     }
 }
-
-
-@Composable
-internal expect fun ChatBackground()
-
-

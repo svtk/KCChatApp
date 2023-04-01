@@ -53,7 +53,7 @@ class ChatViewModel: CommonViewModel() {
                         }
                     }
                 }
-                .launchIn(viewModelScope)
+                .collect()
         }
     }
 

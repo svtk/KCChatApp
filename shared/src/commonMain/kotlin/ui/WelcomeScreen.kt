@@ -1,5 +1,6 @@
 package ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -12,7 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 internal fun WelcomeScreen(onJoinClick: (String) -> Unit) {
@@ -44,18 +48,21 @@ internal fun WelcomeScreen(onJoinClick: (String) -> Unit) {
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun ChatSurface(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
-//    val gradientColors = listOf(Color.Gray, Color.LightGray)
     Surface(modifier) {
+        Image(
+            painter = painterResource("bg.png"),
+            contentDescription = "Background",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize(),
+        )
         Box(
             modifier = Modifier.fillMaxSize()
-//                .background(
-//                    brush = Brush.horizontalGradient(gradientColors)
-//                )
         ) {
             content()
         }
