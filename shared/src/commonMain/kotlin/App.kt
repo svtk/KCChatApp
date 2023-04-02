@@ -1,12 +1,12 @@
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import ui.Navigation
+import ui.theme.ChatAppTheme
 import viewmodel.ChatViewModel
 
 
 @Composable
 internal fun App() {
-    MaterialTheme {
+    ChatAppTheme {
         val chatViewModel = ChatViewModel()
         Navigation(chatViewModel)
     }

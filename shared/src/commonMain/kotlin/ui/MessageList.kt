@@ -1,5 +1,6 @@
 package ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -69,38 +70,32 @@ private fun MessageCard(
             }
             .fillMaxWidth()
     ) {
-        val shape = RoundedCornerShape(12.dp).run {
-            val cornerSize = CornerSize(2.dp)
+        val shape = RoundedCornerShape(16.dp).run {
+            val cornerSize = CornerSize(4.dp)
             if (isMyMessage) copy(topEnd = cornerSize) else copy(topStart = cornerSize)
         }
+        val color = if (isMyMessage) MaterialTheme.colors.primary else MaterialTheme.colors.secondary
         Card(
             shape = shape,
-            elevation = 8.dp
+            border = BorderStroke(1.dp, color),
         ) {
-            Column(
-                modifier = Modifier
-                    .background(
-                        color = if (isMyMessage)
-                            MaterialTheme.colors.secondary.copy(alpha = 0.1f)
-                        else
-                            MaterialTheme.colors.onPrimary
-                    )
-            ) {
+            Column {
                 Text(
                     text = messages.first().username,
+                    color = color,
                     style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.padding(top = 5.dp, start = 5.dp, end = 15.dp),
+                    modifier = Modifier.padding(top = 10.dp, start = 10.dp, end = 20.dp),
                 )
                 for (message in messages) {
                     Text(
                         text = message.text,
-                        modifier = Modifier.padding(top = 3.dp, start = 5.dp, end = 15.dp)
+                        modifier = Modifier.padding(top = 3.dp, start = 10.dp, end = 15.dp)
                     )
                     Text(
                         text = message.timeText(),
                         modifier = Modifier
                             .align(Alignment.End)
-                            .padding(start = 20.dp, end = 6.dp),
+                            .padding(start = 20.dp, end = 10.dp, bottom = 3.dp),
                         color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f),
                         style = MaterialTheme.typography.overline,
                     )
