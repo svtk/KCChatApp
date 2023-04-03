@@ -1,7 +1,5 @@
 package ui
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -77,7 +75,6 @@ private fun MessageCard(
         val color = if (isMyMessage) MaterialTheme.colors.primary else MaterialTheme.colors.secondary
         Card(
             shape = shape,
-            border = BorderStroke(1.dp, color),
         ) {
             Column {
                 Text(
