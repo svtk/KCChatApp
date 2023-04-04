@@ -4,11 +4,11 @@ import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.http.*
-import io.ktor.serialization.*
 import io.ktor.serialization.kotlinx.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.websocket.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
 import model.ChatEvent
 import remote.ChatService.Companion.CHAT_PORT
@@ -26,7 +26,7 @@ class ChatServiceImpl : ChatService {
             contentConverter = KotlinxWebsocketSerializationConverter(Json)
         }
     }
-    private var socket: DefaultClientWebSocketSession? = null
+    private lateinit var socket: DefaultClientWebSocketSession
     private lateinit var username: String
 
     override suspend fun openSession(username: String) {
@@ -43,35 +43,22 @@ class ChatServiceImpl : ChatService {
         }
     }
 
-    override fun observeEvents(): Flow<ChatEvent> {
-       //TODO: looks nicer but is it actually better?
-       return socket?.let { socket ->
-            flow {
-                while (true) {
-                    emit(socket.receiveDeserialized())
-                }
+    override fun observeEvents(): Flow<ChatEvent> =
+        flow {
+            while (true) {
+                emit(socket.receiveDeserialized())
             }
         }
-        ?: flowOf()
-
-//        return socket
-//            ?.incoming
-//            ?.receiveAsFlow()
-//            ?.mapNotNull {
-//                socket?.converter?.deserialize<ChatEvent>(it) //looks ugly
-//            }
-//            ?: flowOf()
-    }
 
     override suspend fun sendEvent(event: ChatEvent) {
         try {
-            socket?.sendSerialized(event)
+            socket.sendSerialized(event)
         } catch (e: Exception) {
             println("Error while sending: " + e.message)
         }
     }
 
     override suspend fun closeSession() {
-        socket?.close()
+        socket.close()
     }
 }
