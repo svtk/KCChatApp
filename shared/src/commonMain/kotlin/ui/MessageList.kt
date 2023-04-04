@@ -86,17 +86,17 @@ private fun MessageCard(
                 for (message in messages) {
                     Text(
                         text = message.text,
-                        modifier = Modifier.padding(top = 3.dp, start = 10.dp, end = 15.dp)
-                    )
-                    Text(
-                        text = message.timeText(),
-                        modifier = Modifier
-                            .align(Alignment.End)
-                            .padding(start = 20.dp, end = 10.dp, bottom = 3.dp),
-                        color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f),
-                        style = MaterialTheme.typography.overline,
+                        modifier = Modifier.padding(top = 5.dp, start = 10.dp, end = 15.dp)
                     )
                 }
+                Text(
+                    text = messages.last().timeText(),
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .padding(top = 5.dp, start = 20.dp, end = 10.dp, bottom = 3.dp),
+                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f),
+                    style = MaterialTheme.typography.overline,
+                )
             }
         }
     }
