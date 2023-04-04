@@ -44,13 +44,23 @@ class ChatServiceImpl : ChatService {
     }
 
     override fun observeEvents(): Flow<ChatEvent> {
-        return socket
-            ?.incoming
-            ?.receiveAsFlow()
-            ?.mapNotNull {
-                socket?.converter?.deserialize<ChatEvent>(it)
+       //TODO: looks nicer but is it actually better?
+       return socket?.let { socket ->
+            flow {
+                while (true) {
+                    emit(socket.receiveDeserialized())
+                }
             }
-            ?: flowOf()
+        }
+        ?: flowOf()
+
+//        return socket
+//            ?.incoming
+//            ?.receiveAsFlow()
+//            ?.mapNotNull {
+//                socket?.converter?.deserialize<ChatEvent>(it) //looks ugly
+//            }
+//            ?: flowOf()
     }
 
     override suspend fun sendEvent(event: ChatEvent) {
