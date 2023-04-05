@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import ui.model.Message
 import ui.model.timeText
 import kotlin.time.Duration.Companion.seconds
@@ -39,12 +39,13 @@ internal fun MessageList(
         state = listState
     ) {
         val grouped = messages.groupConsecutiveBy { first, second ->
-            first.username == second.username && second.timestamp - first.timestamp < 10.seconds
+            first.username == second.username &&
+            second.timestamp - first.timestamp < 10.seconds
         }
         grouped.forEach { group ->
             item {
                 MessageCard(
-                    persistentListOf(*group.toTypedArray()),
+                    group.toPersistentList(),
                     isMyMessage = group.first().username == username
                 )
             }
