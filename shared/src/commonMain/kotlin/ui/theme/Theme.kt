@@ -26,7 +26,7 @@ private val ColorPalette = lightColors(
 )
 
 @Composable
-fun ChatAppTheme(
+internal fun ChatAppTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
