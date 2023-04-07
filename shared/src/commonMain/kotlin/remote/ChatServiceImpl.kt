@@ -26,7 +26,7 @@ class ChatServiceImpl : ChatService {
             contentConverter = KotlinxWebsocketSerializationConverter(Json)
         }
     }
-    private lateinit var socket: DefaultClientWebSocketSession
+    private var socket: DefaultClientWebSocketSession? = null
     private lateinit var username: String
 
     override suspend fun openSession(username: String) {
@@ -43,22 +43,21 @@ class ChatServiceImpl : ChatService {
         }
     }
 
-    override fun observeEvents(): Flow<ChatEvent> =
-        flow {
-            while (true) {
-                emit(socket.receiveDeserialized())
-            }
+    override fun observeEvents(): Flow<ChatEvent> = flow {
+        while (true) {
+            emit(socket!!.receiveDeserialized())
         }
+    }
 
     override suspend fun sendEvent(event: ChatEvent) {
         try {
-            socket.sendSerialized(event)
+            socket?.sendSerialized(event)
         } catch (e: Exception) {
             println("Error while sending: " + e.message)
         }
     }
 
     override suspend fun closeSession() {
-        socket.close()
+        socket?.close()
     }
 }
