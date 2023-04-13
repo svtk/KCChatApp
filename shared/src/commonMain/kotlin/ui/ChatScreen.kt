@@ -1,19 +1,16 @@
 package ui
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
 import ui.model.Message
 import viewmodel.ChatViewModel
 
@@ -36,25 +33,27 @@ internal fun ChatScreen(
     onMessageSent: (String) -> Unit,
     onUserIsTyping: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Box(Modifier.weight(1f)) {
-            ChatSurface {
+    ChatSurface {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Box(Modifier.weight(1f)) {
                 MessageList(
                     messages = messages,
                     username = username,
                 )
             }
-        }
-        Column {
-            TypingUsers(
-                typingUsers = typingUsers,
-            )
-            CreateMessage(
-                onMessageSent = onMessageSent,
-                onTyping = onUserIsTyping,
-            )
+            Column(
+                modifier = Modifier.background(MaterialTheme.colors.background)
+            ) {
+                TypingUsers(
+                    typingUsers = typingUsers,
+                )
+                CreateMessage(
+                    onMessageSent = onMessageSent,
+                    onTyping = onUserIsTyping,
+                )
+            }
         }
     }
 }

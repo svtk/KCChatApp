@@ -8,14 +8,13 @@ import androidx.compose.ui.graphics.Color
 val indigoMain = Color(0xff3949ab)
 val indigoLight = Color(0xffaab6fe)
 val orangeDark = Color(0xffc75b39)
-val lightGrey = Color(0xffe1e2e1)
 
 private val ColorPalette = lightColors(
     primary = indigoMain,
     primaryVariant = indigoLight,
     secondary = orangeDark,
     secondaryVariant = orangeDark,
-    background = lightGrey,
+    background = Color.White,
     onSecondary = Color.White,
     /* Other default colors to override
     surface = Color.White,
