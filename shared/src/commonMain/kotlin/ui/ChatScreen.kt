@@ -28,7 +28,6 @@ internal fun ChatScreen(chatViewModel: ChatViewModel) {
     )
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun ChatScreen(
     messages: ImmutableList<Message>,
