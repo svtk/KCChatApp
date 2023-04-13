@@ -68,15 +68,14 @@ class ChatViewModel : CommonViewModel() {
 
     fun sendMessage(message: String) {
         viewModelScope.launch {
-            username.value?.let { name ->
-                chatService.sendEvent(
-                    MessageEvent(
-                        username = name,
-                        messageText = message,
-                        timestamp = Clock.System.now()
-                    )
+            val name = username.value ?: return@launch
+            chatService.sendEvent(
+                MessageEvent(
+                    username = name,
+                    messageText = message,
+                    timestamp = Clock.System.now()
                 )
-            }
+            )
         }
     }
 
